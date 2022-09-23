@@ -41,63 +41,31 @@ const last = document.getElementById("last");
 const email = document.getElementById("email");
 const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
-const locations = document.getElementsByName("location")
-const checkbox1 = document.getElementById("checkbox1");
+const locations = document.getElementById('location1');
+const termsAndConditions = document.getElementById("checkbox1");
 
 const form = document.querySelector('form')
 
-// REGEX
-const emailRegex = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
-
-// check string lenght
-/* const isShorterThanTwo = (string) => {
-    if(string.length < 2) console.log("veuillez remplir ce champ svp")
-}
-
-// First and last name
-first.addEventListener("blur", () => isShorterThanTwo(first.value))
-last.addEventListener("blur", () => isShorterThanTwo(last.value))
-
-// Check email
-email.addEventListener("blur", () => {
-  if(emailRegex.test(email.value)){
-    console.log("ok")
-
-  } else console.log("pas ok")
-}) 
-
-// Check contests quantity
-quantity.addEventListener('blur', () => {
-  quantity.checkValidity() ? checks.quantity = false : ""
-})*/
-
-
-// Every propreties has to be true for the form to be checked
-const checks = {
-  checkLocations: false,
-  termsAndConditions: true
-}
-
-// Check if at least one location is selected
-const locationsArray = Array.from(locations)
-const checksLocations = () => checks.checkLocations = locationsArray.some( e => e.checked === true);
-
-// Check terms ans conditions
-//const termsAndConditions = () => checkbox1.checked ? checks.termsAndConditions = true : checks.termsAndConditions = false;
+const inputsArray = [first, last, email, birthdate, quantity, locations, termsAndConditions]
 
 // verifiy before submit
 const validate = (e) => {
-  checksLocations();
-
-  for (value in checks)
-    if(checks[value] === false) {
-      e.preventDefault();
-      //return console.log('veuillez remplir le champs')
+    for (input of inputsArray) {
+      if(!input.validity.valid) {
+        console.log('oups')
+        e.preventDefault();
+      }
     }
   }
 
   form.addEventListener('submit', (e) => {
-    validate(e)
+   // validate(e)
+   for (input of inputsArray) {
+    if(!input.checkValidity()) {
+      console.log(`${input} est invalide`)
+      e.preventDefault();
+    } else { console.log(`${input.outerHTML} est valide`)}
+  }
   })
 
   //j'ai passer l'événement à validate, ce qui permettra de bloquer l'envoi du formulaire avec prevent default s'il y a une erreur
