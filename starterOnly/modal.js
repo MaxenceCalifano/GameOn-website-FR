@@ -50,22 +50,14 @@ const inputsArray = [first, last, email, birthdate, quantity, locations, termsAn
 
 // verifiy before submit
 const validate = (e) => {
-    for (input of inputsArray) {
-      if(!input.validity.valid) {
-        console.log('oups')
-        e.preventDefault();
-      }
-    }
-  }
-
-  form.addEventListener('submit', (e) => {
-   // validate(e)
-   for (input of inputsArray) {
+  for (input of inputsArray) {
     if(!input.checkValidity()) {
       console.log(`${input} est invalide`)
       e.preventDefault();
     } else { console.log(`${input.outerHTML} est valide`)}
   }
-  })
+  }
 
-  //j'ai passer l'événement à validate, ce qui permettra de bloquer l'envoi du formulaire avec prevent default s'il y a une erreur
+  form.addEventListener('submit', (e) => {
+   validate(e)
+  })
