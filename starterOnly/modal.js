@@ -50,19 +50,22 @@ const form = document.querySelector('form')
 
 const inputsArray = [first, last, email, birthdate, quantity, locations, termsAndConditions]
 
-first.addEventListener('blur', () => testUserInput(first, "Veuillez entrer 2 caractères ou plus pour le champ du prénom"))
-last.addEventListener('blur', () => testUserInput(last, "Veuillez entrer 2 caractères ou plus pour le champ du nom"))
-email.addEventListener('blur', () => testUserInput(email, "Veuillez entrer une adresse email valide"))
-birthdate.addEventListener('blur', () => testUserInput(birthdate, "Vous devez entrer votre date de naissance."))
-quantity.addEventListener('blur', () => testUserInput(quantity, "Veuillez indiquer le nombre de tournoi auquel vous avez déjà participé"))
-//locations.addEventListener('blur', () => testUserInput(locations, "Vous devez choisir une option."))
-//termsAndConditions.addEventListener('blur', () => testUserInput(termsAndConditions, "Vous devez vérifier que vous acceptez les termes et conditions."))
+first.addEventListener('blur', () => testUserInput(first))
+last.addEventListener('blur', () => testUserInput(last))
+email.addEventListener('blur', () => testUserInput(email))
+birthdate.addEventListener('blur', () => testUserInput(birthdate))
+quantity.addEventListener('blur', () => testUserInput(quantity))
+locations.addEventListener('click', () => testUserInput(locations))
+termsAndConditions.addEventListener('click', () => testUserInput(termsAndConditions))
 
 
 
 const testUserInput = (element, e) => {
   if(!element.validity.valid) {
-    e.preventDefault();
+    // prevent default only on form validation, not on input blur
+    if(e !== undefined) {
+      e.preventDefault();
+    }
     element.parentElement.dataset.errorVisible = true 
   } else {
     element.parentElement.dataset.errorVisible = false
@@ -72,10 +75,6 @@ const testUserInput = (element, e) => {
 // verifiy before submit
 const validate = (e) => {
   for (input of inputsArray) {
-    /* if(!input.checkValidity()) {
-      console.log(`${input} est invalide`)
-      e.preventDefault();
-    } else { console.log(`${input.outerHTML} est valide`)} */
     testUserInput(input, e)
   }
   }
