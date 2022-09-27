@@ -381,6 +381,14 @@ fieldset {
 /* Modal Validation message */
 .validationMessage {
   display: none;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 75vh;
+}
+
+.validationMessage p {
+  height: 50%;
 }
 
 /* custom select styles */

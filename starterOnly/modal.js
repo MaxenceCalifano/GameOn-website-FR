@@ -10,8 +10,10 @@ function editNav() {
 // DOM Elements
 const modalbg = document.querySelector(".bground");
 const closeModalBtn = document.querySelector(".close");
+const closeConfirmation = document.querySelector(".validationMessage button");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
+const validationMessage = document.querySelector(".validationMessage");
 
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -34,6 +36,16 @@ function closeModal() {
 // close modal
 closeModalBtn.addEventListener("click", closeModal)
 
+// close confirmation message and reset style to make form appear
+closeConfirmation.addEventListener("click", () => {
+  closeModal()
+
+  setTimeout(()=> {
+    validationMessage.style.display = "none";
+    form.style.display= "block";
+  }, 1000)
+})
+
 
 // DOM Elements of form
 const first = document.getElementById("first");
@@ -55,7 +67,7 @@ last.addEventListener('blur', () => testUserInput(last))
 email.addEventListener('blur', () => testUserInput(email))
 birthdate.addEventListener('blur', () => testUserInput(birthdate))
 quantity.addEventListener('blur', () => testUserInput(quantity))
-locations.addEventListener('click', () => testUserInput(locations))
+locations.parentElement.addEventListener('click', () => testUserInput(locations))
 termsAndConditions.addEventListener('click', () => testUserInput(termsAndConditions))
 
 
@@ -66,7 +78,7 @@ const testUserInput = (element, e) => {
     if(e !== undefined) {
       e.preventDefault();
     }
-    element.parentElement.dataset.errorVisible = true 
+    element.parentElement.dataset.errorVisible = true;
   } else {
     element.parentElement.dataset.errorVisible = false
   }
@@ -77,8 +89,15 @@ const validate = (e) => {
   for (input of inputsArray) {
     testUserInput(input, e)
   }
+  const allInputsAreOk = inputsArray.every( input => input.validity.valid === true )
+  if (allInputsAreOk) {
+    form.reset()
+      validationMessage.style.display = "flex";
+      form.style.display= "none";
   }
+}
 
   form.addEventListener('submit', (e) => {
+  e.preventDefault();
    validate(e)
   })
