@@ -60,22 +60,23 @@ quantity.addEventListener('blur', () => testUserInput(quantity, "Veuillez indiqu
 
 
 
-const testUserInput = (element, errorMessage) => {
-  if(!element.checkValidity()) {
-    element.insertAdjacentHTML('afterend', errorMessage)
+const testUserInput = (element, e) => {
+  if(!element.validity.valid) {
+    e.preventDefault();
+    element.parentElement.dataset.errorVisible = true 
   } else {
-    element.nextElementSibling.remove()
-
+    element.parentElement.dataset.errorVisible = false
   }
 }
 
 // verifiy before submit
 const validate = (e) => {
   for (input of inputsArray) {
-    if(!input.checkValidity()) {
+    /* if(!input.checkValidity()) {
       console.log(`${input} est invalide`)
       e.preventDefault();
-    } else { console.log(`${input.outerHTML} est valide`)}
+    } else { console.log(`${input.outerHTML} est valide`)} */
+    testUserInput(input, e)
   }
   }
 
