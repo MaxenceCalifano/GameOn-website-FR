@@ -378,6 +378,11 @@ fieldset {
   border: 0;
 }
 
+/* Modal Validation message */
+.validationMessage {
+  display: none;
+}
+
 /* custom select styles */
 .custom-select {
   position: relative;
