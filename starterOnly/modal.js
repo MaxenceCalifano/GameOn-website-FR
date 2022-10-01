@@ -65,55 +65,69 @@ const form = document.querySelector('form')
 // Check properties : is mutable by the corresponding test function and will be read when the form is submitted
 // HTMLElement is used by the validate() function, when the form is submitted and the input is not valid (eg : if the user try to click submit whithout filling inputs)
 const inputsCheck = {
-  first: {
-    checked : false,
-    HTMLElement : first
+  inputs: {
+    first: {
+      checked : false,
+      HTMLElement : first
+    },
+    last: {
+      checked : false,
+      HTMLElement : last
+    },
+    email: {
+      checked : false,
+      HTMLElement : email
+    },
+    birthdate: {
+      checked : false,
+      HTMLElement : birthdate
+    },
+    quantity: {
+      checked : false,
+      HTMLElement : quantity
+    },
+    location: {
+      checked : false,
+      HTMLElement : location1
+    },
+    termsAndConditions: {
+      checked : true,
+      HTMLElement : termsAndConditions
+    }
   },
-  last: {
-    checked : false,
-    HTMLElement : last
+  isFormCanBeSubmitted: () => {
+    let countInput = 0;
+    for ( input in inputsCheck.inputs) {
+      if(inputsCheck.inputs[input].checked) {
+        countInput ++;
+      } else {
+        inputsCheck.inputs[input].HTMLElement.parentElement.dataset.errorVisible = true;
+      }
+    }
+    if(countInput === Object.keys(inputsCheck.inputs).length) {
+      return true;
+    }
   },
-  email: {
-    checked : false,
-    HTMLElement : email
-  },
-  birthdate: {
-    checked : false,
-    HTMLElement : birthdate
-  },
-  quantity: {
-    checked : false,
-    HTMLElement : quantity
-  },
-  location: {
-    checked : false,
-    HTMLElement : location1
-  },
-  termsAndConditions: {
-    checked : true,
-    HTMLElement : termsAndConditions
-  },
-}
-
+  
 // Set inputsCheck object to default values
-const reset = () => {
-  inputsCheck.first.checked = false;
-  inputsCheck.last.checked = false;
-  inputsCheck.email.checked = false;
-  inputsCheck.birthdate.checked = false;
-  inputsCheck.quantity.checked = false;
-  inputsCheck.location.checked = false;
-
+  reset: () => {
+    inputsCheck.inputs.first.checked = false;
+    inputsCheck.inputs.last.checked = false;
+    inputsCheck.inputs.email.checked = false;
+    inputsCheck.inputs.birthdate.checked = false;
+    inputsCheck.inputs.quantity.checked = false;
+    inputsCheck.inputs.location.checked = false;
+  }
 }
 
 // function receives the input to be tested and a function that test it
 const testUserInput = (element, checkInput) => {
   if(!checkInput(element)) {
     element.parentElement.dataset.errorVisible = true;
-    inputsCheck[element.name].checked = false
+    inputsCheck.inputs[element.name].checked = false
   } else {
     element.parentElement.dataset.errorVisible = false
-    inputsCheck[element.name].checked = true
+    inputsCheck.inputs[element.name].checked = true
   } 
 }
 
@@ -202,17 +216,10 @@ termsAndConditions.addEventListener('click', () => testUserInput(termsAndConditi
 // if it less then the form can't be submitted
 // if it's equal, then whe submit, reset the object and display the validation message
 const validate = () => {
-  let countInput = 0;
-  for ( input in inputsCheck) {
-    if(inputsCheck[input].checked) {
-      countInput ++;
-    } else {
-      inputsCheck[input].HTMLElement.parentElement.dataset.errorVisible = true;
-    }
-  }
-  if(countInput === Object.keys(inputsCheck).length) {
+
+  if(inputsCheck.isFormCanBeSubmitted()) {
       form.reset()
-      reset()
+     inputsCheck.reset()
       validationMessage.style.display = "flex";
       form.style.display= "none";
   }
