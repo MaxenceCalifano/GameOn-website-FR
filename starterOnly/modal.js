@@ -95,6 +95,16 @@ const inputsCheck = {
   },
 }
 
+// Set inputsCheck object to default values
+const reset = () => {
+  inputsCheck.first.checked = false;
+  inputsCheck.last.checked = false;
+  inputsCheck.email.checked = false;
+  inputsCheck.birthdate.checked = false;
+  inputsCheck.quantity.checked = false;
+  inputsCheck.location.checked = false;
+
+}
 
 // function receives the input to be tested and a function that test it
 const testUserInput = (element, checkInput) => {
@@ -188,7 +198,9 @@ termsAndConditions.addEventListener('click', () => testUserInput(termsAndConditi
 
 
 
-// Verifiy before submit
+// Verifiy before submit, it will count how many inputs are valid and then compare with the number of input whe have,
+// if it less then the form can't be submitted
+// if it's equal, then whe submit, reset the object and display the validation message
 const validate = () => {
   let countInput = 0;
   for ( input in inputsCheck) {
@@ -198,14 +210,15 @@ const validate = () => {
       inputsCheck[input].HTMLElement.parentElement.dataset.errorVisible = true;
     }
   }
-  if(countInput === inputsCheck.length) {
-    form.reset()
+  if(countInput === Object.keys(inputsCheck).length) {
+      form.reset()
+      reset()
       validationMessage.style.display = "flex";
       form.style.display= "none";
   }
 }
 
-// Cath submit from the form, prevent reload of the and execute validate()
+// Cath submit from the form, prevent reload of the form and execute validate()
   form.addEventListener('submit', (e) => {
   e.preventDefault();
    validate(e)
