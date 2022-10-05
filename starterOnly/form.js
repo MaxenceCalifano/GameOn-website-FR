@@ -170,10 +170,10 @@ termsAndConditions.addEventListener('click', () => testUserInput(termsAndConditi
 const validate = () => {
 
   if(inputsCheck.isFormCanBeSubmitted()) {
-      form.reset()
-     inputsCheck.reset()
-      validationMessage.style.display = "flex";
-      form.style.display= "none";
+    form.reset()
+    inputsCheck.reset()
+    validationMessage.style.display = "flex";
+    form.style.display= "none";
   }
 }
 

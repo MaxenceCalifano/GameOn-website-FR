@@ -59,6 +59,7 @@ img {
   text-decoration: none;
   font-size: 20px;
   font-family: Roboto, sans-serif;
+  background-color: rgba(255, 255, 255, 0.9)
 }
 
 .topnav a:hover {
@@ -77,21 +78,31 @@ img {
   display: none;
 }
 
+
 @media screen and (max-width: 800px) {
+  .main-navbar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+  }
+
   .topnav a {
     display: none;
+  }
+
+  .topnav a:not(:last-child) {
+    margin-right: 48px;
   }
 
   .topnav a.icon {
     float: right;
     display: block;
   }
-}
 
-@media screen and (max-width: 768px) {
-  .topnav.responsive {
+  /*   .topnav.responsive {
     position: relative;
-  }
+  } */
 
   .topnav.responsive .icon {
     position: absolute;
@@ -116,7 +127,14 @@ img {
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
+  }
+
+  .topnav a:first-child {
+    margin-top: 65px;
+  }
+
+  .topnav a:not(:last-child) {
+    margin-right: 0px;
   }
 }
 
