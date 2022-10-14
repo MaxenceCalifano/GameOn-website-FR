@@ -20,31 +20,38 @@ const inputsCheck = {
   inputs: {
     first: {
       checked : false,
-      HTMLElement : first
+      HTMLElement : first,
+      errorMessage : "Veuillez entrer 2 caractères ou plus pour le champ"
     },
     last: {
       checked : false,
-      HTMLElement : last
+      HTMLElement : last,
+      errorMessage : "Veuillez entrer 2 caractères ou plus pour le champ"
     },
     email: {
       checked : false,
-      HTMLElement : email
+      HTMLElement : email,
+      errorMessage : "Veuillez entrer une adresse email valide"
     },
     birthdate: {
       checked : false,
-      HTMLElement : birthdate
+      HTMLElement : birthdate,
+      errorMessage: "Vous devez entrer votre date de naissance."
     },
     quantity: {
       checked : false,
-      HTMLElement : quantity
+      HTMLElement : quantity,
+      errorMessage: "Veuillez indiquer le nombre de tournoi auquel vous avez déjà participé"
     },
     location: {
       checked : false,
-      HTMLElement : location1
+      HTMLElement : location1,
+      errorMessage: "Vous devez choisir une option."
     },
     termsAndConditions: {
       checked : true,
-      HTMLElement : termsAndConditions
+      HTMLElement : termsAndConditions,
+      errorMessage: "Vous devez vérifier que vous acceptez les termes et conditions."
     }
   },
   isFormCanBeSubmitted: () => {
@@ -54,6 +61,7 @@ const inputsCheck = {
         countInput ++;
       } else {
         inputsCheck.inputs[input].HTMLElement.parentElement.dataset.errorVisible = true;
+        inputsCheck.inputs[input].HTMLElement.parentElement.dataset.error =  inputsCheck.inputs[input].errorMessage;
       }
     }
     if(countInput === Object.keys(inputsCheck.inputs).length) {
@@ -96,10 +104,11 @@ const checkNumberInString = (string) => {
 const checkLength = (element) => {
   const inputName = element.name === "first" ? "prénom" : "nom";
   if(element.value.trim().length < 2 ) {
-    element.parentElement.dataset.error =  `Veuillez entrer 2 caractères ou plus pour le champ du ${inputName}`;
+    element.parentElement.dataset.error =  `${inputsCheck.inputs[element.name].errorMessage} du ${inputName}`;
     return false
   } else if (checkNumberInString(element.value)) {
-    element.parentElement.dataset.error =  "Veuillez entrer uniquement des lettres";
+    inputsCheck.inputs[element.name].errorMessage = "Veuillez entrer uniquement des lettres";
+    element.parentElement.dataset.error =  inputsCheck.inputs[element.name].errorMessage;
     return false
   } else {
     return true;
@@ -112,6 +121,8 @@ const checkEmail = email => {
   if(emailRegex.test(email.value)) {
     return true
   } else {
+    email.parentElement.dataset.error =  inputsCheck.inputs[email.name].errorMessage;
+    email.parentElement.dataset.error =  "Veuillez entrer une adresse email valide";
     return false
   }
 }
@@ -125,10 +136,12 @@ const checkBirthdate = birthdate => {
   const age = new Date(diff).getUTCFullYear() - 1970
 
   if(age < 18) {
-    birthdate.parentElement.dataset.error = "Vous devez être majeur pour vous inscrire"
+    inputsCheck.inputs[birthdate.name].errorMessage = "Vous devez être majeur pour vous inscrire"
+    birthdate.parentElement.dataset.error =  inputsCheck.inputs[birthdate.name].errorMessage;
     return false
   } else if(isNaN(age)) {
-    birthdate.parentElement.dataset.error = "Vous devez entrer votre date de naissance."
+    inputsCheck.inputs[birthdate.name].errorMessage = "Vous devez entrer votre date de naissance.";
+    birthdate.parentElement.dataset.error =  inputsCheck.inputs[birthdate.name].errorMessage;
     return false
   } else {
     return true
@@ -140,6 +153,7 @@ const checkQuantity = (quantity) => {
   if(quantity.value < 0 || quantity.value === '') {
     return false
   } else if (isNaN(quantity.value)) {
+    quantity.parentElement.dataset.error = inputsCheck.inputs[quantity.name].errorMessage;
      return false;
   } else {
     return true;
@@ -152,6 +166,7 @@ const checkLocations = () => {
   if(locationsArray.some( e => e.checked === true)) {
     return true
   } else {
+    location1.parentElement.dataset.error =  inputsCheck.inputs.location.errorMessage;
     return false
   }
 }
@@ -161,6 +176,7 @@ const checkTerms = (terms) => {
   if(terms.checked) {
     return true
   } else {
+    termsAndConditions.parentElement.dataset.error =  inputsCheck.inputs.termsAndConditions.errorMessage;
     return false
   }
 }
