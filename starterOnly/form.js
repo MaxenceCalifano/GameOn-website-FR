@@ -85,13 +85,24 @@ const testUserInput = (element, checkInput) => {
 
 
 // All the inputs test functions
-
+const checkNumberInString = (string) => {
+  for (let i=0; i < string.length; i++) {
+    if(!isNaN(parseInt(string[i]))) {
+      return true;
+    }
+  }
+}
 // remove all potential white space before and after text and check if input is longer than two
 const checkLength = (element) => {
+  const inputName = element.name === "first" ? "prénom" : "nom";
   if(element.value.trim().length < 2 ) {
+    element.parentElement.dataset.error =  `Veuillez entrer 2 caractères ou plus pour le champ du ${inputName}`;
+    return false
+  } else if (checkNumberInString(element.value)) {
+    element.parentElement.dataset.error =  "Veuillez entrer uniquement des lettres";
     return false
   } else {
-    return true
+    return true;
   }
 }
 
@@ -126,7 +137,6 @@ const checkBirthdate = birthdate => {
 
 // check if the input is not less than zero or empty
 const checkQuantity = (quantity) => {
-  console.log('type of', typeof quantity.value)
   if(quantity.value < 0 || quantity.value === '') {
     return false
   } else if (isNaN(quantity.value)) {
