@@ -151,10 +151,11 @@ const checkBirthdate = birthdate => {
 // check if the input is not less than zero or empty
 const checkQuantity = (quantity) => {
   if(quantity.value < 0 || quantity.value === '') {
+    inputsCheck.inputs.quantity.HTMLElement.parentElement.dataset.error = inputsCheck.inputs.quantity.errorMessage;
     return false
   } else if (isNaN(quantity.value)) {
-    quantity.parentElement.dataset.error = inputsCheck.inputs[quantity.name].errorMessage;
-     return false;
+    inputsCheck.inputs.quantity.HTMLElement.parentElement.dataset.error = inputsCheck.inputs.quantity.errorMessage;
+    return false;
   } else {
     return true;
   }
