@@ -88,7 +88,7 @@ const testUserInput = (element, checkInput) => {
 
 // remove all potential white space before and after text and check if input is longer than two
 const checkLength = (element) => {
-  if(element.value.trim().length < 2) {
+  if(element.value.trim().length < 2 ) {
     return false
   } else {
     return true
@@ -126,10 +126,13 @@ const checkBirthdate = birthdate => {
 
 // check if the input is not less than zero or empty
 const checkQuantity = (quantity) => {
+  console.log('type of', typeof quantity.value)
   if(quantity.value < 0 || quantity.value === '') {
     return false
+  } else if (isNaN(quantity.value)) {
+     return false;
   } else {
-    return true
+    return true;
   }
 }
 
