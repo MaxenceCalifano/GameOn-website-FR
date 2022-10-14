@@ -156,6 +156,9 @@ const checkQuantity = (quantity) => {
   } else if (isNaN(quantity.value)) {
     inputsCheck.inputs.quantity.HTMLElement.parentElement.dataset.error = inputsCheck.inputs.quantity.errorMessage;
     return false;
+  } else if (!Number.isInteger(parseFloat(quantity.value))) {
+    inputsCheck.inputs.quantity.HTMLElement.parentElement.dataset.error = inputsCheck.inputs.quantity.errorMessage;
+    return false;
   } else {
     return true;
   }
